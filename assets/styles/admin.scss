@@ -1,0 +1,15 @@
+@import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css';
+
+
+.dragArea {
+  min-height: 20px;
+  .card {
+    margin-top: 5px;
+  }
+  .draggable {
+    cursor: move;
+  }
+}
+.nested-element {
+  margin-left: 20px;
+}

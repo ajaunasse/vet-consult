@@ -1,0 +1,20 @@
+{% extends '@EasyAdmin/crud/new.html.twig' %}
+
+{% block configured_stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin_style') }}
+{% endblock %}
+{% block main %}
+
+    <div id="vue-app">
+
+    </div>
+
+{% endblock %}
+
+
+{% block configured_javascripts %}
+    {{ parent() }}
+
+    {{ encore_entry_script_tags('admin_js') }}
+{% endblock %}
