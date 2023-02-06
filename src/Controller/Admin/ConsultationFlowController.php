@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
@@ -8,10 +9,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ConsultationFlowController extends AbstractController
 {
+
+
     #[Route('/admin/consultation/flow', name: 'admin_consultation_flow')]
     public function index(): Response
     {
         return $this->render('admin/consultation_flow/index.html.twig', [
         ]);
     }
+
 }

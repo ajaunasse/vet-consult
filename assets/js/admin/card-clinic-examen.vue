@@ -5,7 +5,7 @@
 <template>
   <div class="card draggable">
     <div class="card-header" v-if="!isEditing" @dblclick="editExamen">
-      {{examen.type}}
+      {{currentExamen.type.name}}
       <span class="fa fa-trash float-end"></span>
     </div>
     <div v-else>
@@ -22,6 +22,7 @@
 						}
 					"
             @selectItem="selectItem"
+            @onInput="onInputEventHandler"
         >
         </vue3-simple-typeahead>
         <button class="btn btn-success btn-sm" @click="validate">Valider</button>
@@ -30,7 +31,9 @@
 
     </div>
     <div class="card-body">
-      <span class="badge badge-primary">{{examen.availableValues}}</span>
+      <span class="badge badge-primary" v-for="value in currentExamen.availableValues">{{value.name}}</span>
+    </div>
+    <div>
     </div>
   </div>
 </template>
@@ -38,8 +41,9 @@
 
 import SimpleTypeahead from 'vue3-simple-typeahead';
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css';
-import Routing from 'fos-router';
 import axios from "axios";
+import { isProxy, toRaw } from 'vue';
+
 export default {
   name: "card-clinic-examen",
   components: {
@@ -49,12 +53,17 @@ export default {
     examen: {
       required: true,
       type: Object
+    },
+    position: {
+      required: true,
+      type: Number
     }
   },
   data() {
     return {
+      currentExamen : this.examen,
       isEditing: false,
-      newExamen: null,
+      newExamen: {},
       availableExamens: []
     }
   },
@@ -73,13 +82,13 @@ export default {
       return this.availableExamens;
     },
     selectItem(item) {
-      console.log(item.id)
-      console.log({...this.availableExamens.find(examen => examen.id === item.id)})
-      this.newExamen = {...this.availableExamens.find(examen => examen.id === item.id)}
+      this.newExamen = toRaw(item)
+      this.newExamen.position = this.position;
     },
     validate() {
-      this.examen = this.newExamen;
+      this.currentExamen = toRaw(this.newExamen)
       this.isEditing = false;
+      this.$emit('examenCreated', this.currentExamen)
     },
     cancel() {
       this.isEditing = false;

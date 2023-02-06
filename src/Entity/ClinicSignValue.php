@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ClinicSignValueRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -16,6 +17,7 @@ class ClinicSignValue implements \Stringable
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['get'])]
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     private ?string $name = null;

@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Crud;
 
 use App\Entity\ConsultationFlow;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ConsultationFlowCrudController extends AbstractCrudController
@@ -20,7 +21,8 @@ class ConsultationFlowCrudController extends AbstractCrudController
 //
 //            // the first argument is the "template name", which is the same as the
 //            // Twig path but without the `@EasyAdmin/` prefix
-            ->overrideTemplate('crud/new', 'admin/consultation_flow/new.html.twig');
+            ->overrideTemplate('crud/new', 'admin/consultation_flow/new.html.twig')
+            ->overrideTemplate('crud/edit', 'admin/consultation_flow/edit.html.twig');
 //
 //            ->overrideTemplates([
 //                'crud/index' => 'admin/pages/index.html.twig',

@@ -6,20 +6,24 @@ use App\Repository\ConsultationFlowRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ConsultationFlowRepository::class)]
 class ConsultationFlow
 {
+    #[Groups(['get'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['get'])]
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?ConsultationReason $reason = null;
 
-    #[ORM\OneToMany(mappedBy: 'consultationFlow', targetEntity: ConsultationFlowExamens::class)]
+    #[Groups(['get'])]
+    #[ORM\OneToMany(mappedBy: 'consultationFlow', targetEntity: ConsultationFlowExamens::class, cascade: ['persist', 'remove'])]
     private Collection $examens;
 
     public function __construct()

@@ -1,4 +1,4 @@
-{% extends '@EasyAdmin/crud/new.html.twig' %}
+{% extends '@EasyAdmin/crud/edit.html.twig' %}
 
 {% block configured_stylesheets %}
     {{ parent() }}
@@ -8,7 +8,6 @@
 {% endblock %}
 
 {% block main %}
-
     <div id="vue-app">
 
     </div>
@@ -18,6 +17,8 @@
 
 {% block configured_javascripts %}
     {{ parent() }}
-
+    <script>
+        let entityId = '{{ entity.primaryKeyValue }}'
+    </script>
     {{ encore_entry_script_tags('admin_js') }}
 {% endblock %}

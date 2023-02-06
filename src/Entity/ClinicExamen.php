@@ -22,6 +22,7 @@ class ClinicExamen
     #[ORM\JoinColumn(nullable: false)]
     private ?ClinicSignType $type = null;
 
+    #[Groups(['get'])]
     #[ORM\ManyToMany(targetEntity: ClinicSignValue::class)]
     private Collection $availableValues;
 

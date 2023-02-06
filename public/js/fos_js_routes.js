@@ -1,0 +1,1 @@
+fos.Router.setData({"base_url":"","routes":{"api_clinic_examen_get":{"tokens":[["text","\/api\/clinic-examen\/get-name"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["GET"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":""});
