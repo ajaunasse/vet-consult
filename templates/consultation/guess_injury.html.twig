@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   {{ injury.name }}
+{% endblock %}
+
+{% block body %}
+<section class="section columns">
+    <div class="column is-6 is-offset-one-quarter">
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <p class="card-header-title">
+                        {% if injury is not null %}
+
+                            Atteinte neurologique : {{ injury.name }}
+                        {% else %}
+                            Aucune atteinte neurologique trouvé
+                        {% endif %}
+                    </p>
+                    <hr class="form-hr">
+
+                    {% if injury is not null %}
+                        <div class="notification is-success">
+                            Avec les données entrées nous avons pu determiner une possible atteinte au niveau <b>{{ injury.name }}</b>
+                        </div>
+                    {% else %}
+                        <div class="notification is-warning">
+                            Aucune atteinte neurologique trouvées avec les informations données
+                            Veuillez trouver ci-dessous le rappel des données entrées
+                        </div>
+                    {% endif %}
+                    <h4> Rappel de la consultation</h4>
+                    <blockquote>
+                        <p><b>Motif de consultation : </b> {{ consultation.reasons.value }}</p>
+                        {% for examen in consultation.symptoms %}
+                            <p><b>{{ examen.examen }} :</b> {{ examen.symptom.name }}</p>
+                        {% endfor %}
+                    </blockquote>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+{% endblock %}

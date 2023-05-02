@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\ConsultationFlowExamens;
+use App\Entity\Consultation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ConsultationFlowExamens>
+ * @extends ServiceEntityRepository<Consultation>
  *
- * @method ConsultationFlowExamens|null find($id, $lockMode = null, $lockVersion = null)
- * @method ConsultationFlowExamens|null findOneBy(array $criteria, array $orderBy = null)
- * @method ConsultationFlowExamens[]    findAll()
- * @method ConsultationFlowExamens[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Consultation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Consultation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Consultation[]    findAll()
+ * @method Consultation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ConsultationFlowExamensRepository extends ServiceEntityRepository
+class ConsultationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ConsultationFlowExamens::class);
+        parent::__construct($registry, Consultation::class);
     }
 
-    public function save(ConsultationFlowExamens $entity, bool $flush = false): void
+    public function save(Consultation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class ConsultationFlowExamensRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(ConsultationFlowExamens $entity, bool $flush = false): void
+    public function remove(Consultation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class ConsultationFlowExamensRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return ConsultationFlowExamens[] Returns an array of ConsultationFlowExamens objects
+//     * @return Consultation[] Returns an array of Consultation objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class ConsultationFlowExamensRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?ConsultationFlowExamens
+//    public function findOneBySomeField($value): ?Consultation
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

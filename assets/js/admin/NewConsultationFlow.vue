@@ -7,8 +7,9 @@
         <option v-for="consultation_reason in this.listConsultation" :value="consultation_reason">{{consultation_reason.value}}</option>
       </select>
     </div>
-    <div class="col-2 float-end">
-      <button class="btn btn-success">Enregistrer</button>
+    <div class="col-3">
+      <modal-new-motif-consultation></modal-new-motif-consultation>
+
     </div>
   </div>
   <hr>
@@ -27,17 +28,19 @@
 
 <script>
 import nested from './nested.vue'
+import modalNewMotifConsultation from "./modal-new-motif-consultation.vue";
 import axios from "axios";
 import { isProxy, toRaw } from 'vue';
+import Routing from 'fos-router';
 
 export default {
   components: {
     nested,
+    modalNewMotifConsultation
   },
   data() {
     return {
       listConsultation: {
-
       },
       currentFlow: {
         id: null,
@@ -58,7 +61,6 @@ export default {
             this.currentFlow = response.data
           })
     }
-
   },
   methods: {
      addExemen() {
@@ -82,7 +84,8 @@ export default {
     examenListUpdatedListener(elements) {
        this.currentFlow.examens = toRaw(elements);
        this.save()
-    }
+    },
+
   }
 }
 </script>

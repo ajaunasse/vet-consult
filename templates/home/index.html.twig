@@ -1,20 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Nouvelle consultation{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<section class="section">
+    <div class="column column is-6 is-offset-3">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <article class="message is-{{ label }}">
+                    <div class="message-body">
+                        {{ message }}
+                    </div>
+                </article>
+            {% endfor %}
+        {% endfor %}
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <p class="card-header-title">
+                        Séléctionner un motif de consultation
+                    </p>
+                    <hr>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                    <form id="consultation" method="post" action="{{ path('app_consultation_new') }}">
+                        {% for reason in reasons %}
+                        <label class="checkbox">
+                            <input type="radio" name="reason" value="{{ reason.id }}" >
+                            {{ reason.value }}
+                        </label>
+                        <br><br>
+                        {% endfor %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/alexandre.jaunasse/Dev/Perso/vet_consult/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/alexandre.jaunasse/Dev/Perso/vet_consult/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+
+                        <hr>
+                        <input type="submit" class="button is-success is-pulled-right" value="Valider">
+                        <br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

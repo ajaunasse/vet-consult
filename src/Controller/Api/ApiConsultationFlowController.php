@@ -27,6 +27,15 @@ final class ApiConsultationFlowController extends AbstractController
 
     }
 
+    #[Route('/', name: 'post', options: ['expose' => true], methods: ['POST'])]
+    public function post(Request $request) {
+
+        dd($request);
+        return $this->json(
+            $this->consultationFlowRepository->find($id), 200, [], ['groups' => 'get']
+        );
+    }
+
     #[Route('/get/{id}', name: 'get', options: ['expose' => true], methods: ['GET'])]
     public function getById(int $id) {
 

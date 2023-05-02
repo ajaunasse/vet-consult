@@ -21,7 +21,6 @@ class InjuryCrudController extends AbstractCrudController
     {
             yield IdField::new('id')->hideOnForm();
             yield TextField::new('name');
-            yield AssociationField::new('consultationReason')->setCrudController(ConsultationReasonCrudController::class);
             yield CollectionField::new('majorClinicSigns')
                 ->setEntryType(MajorInjuryClinicSignType::class)
                 ->allowAdd()

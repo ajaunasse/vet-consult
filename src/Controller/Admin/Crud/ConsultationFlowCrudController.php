@@ -3,9 +3,14 @@
 namespace App\Controller\Admin\Crud;
 
 use App\Entity\ConsultationFlow;
+use App\Entity\ConsultationReason;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class ConsultationFlowCrudController extends AbstractCrudController
 {
@@ -14,30 +19,12 @@ class ConsultationFlowCrudController extends AbstractCrudController
         return ConsultationFlow::class;
     }
 
-    public function configureCrud(Crud $crud): Crud
-    {
-       return Crud::new()
-//            // ...
-//
-//            // the first argument is the "template name", which is the same as the
-//            // Twig path but without the `@EasyAdmin/` prefix
-            ->overrideTemplate('crud/new', 'admin/consultation_flow/new.html.twig')
-            ->overrideTemplate('crud/edit', 'admin/consultation_flow/edit.html.twig');
-//
-//            ->overrideTemplates([
-//                'crud/index' => 'admin/pages/index.html.twig',
-//                'crud/field/textarea' => 'admin/fields/dynamic_textarea.html.twig',
-//            ])
-//            ;
-    }
-    /*
+
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            yield AssociationField::new('reason')->setCrudController(ConsultationReason::class)
         ];
     }
-    */
+
 }

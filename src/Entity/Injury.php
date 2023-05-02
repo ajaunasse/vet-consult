@@ -18,10 +18,6 @@ class Injury
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'injuries')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?ConsultationReason $consultationReason = null;
-
     #[ORM\OneToMany(mappedBy: 'injury', targetEntity: MajorInjuryClinicSign::class, cascade: ['persist', 'remove'])]
     private Collection $majorClinicSigns;
 
@@ -43,18 +39,6 @@ class Injury
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getConsultationReason(): ?ConsultationReason
-    {
-        return $this->consultationReason;
-    }
-
-    public function setConsultationReason(?ConsultationReason $consultationReason): self
-    {
-        $this->consultationReason = $consultationReason;
 
         return $this;
     }
@@ -87,5 +71,21 @@ class Injury
         }
 
         return $this;
+    }
+
+    public function matchWithSymptom(array $symptoms): bool
+    {
+
+        $numberOfMajorClinicSign = $this->majorClinicSigns->count();
+        $matchedSymptoms = [];
+        foreach ($symptoms as $examenId => $symptom) {
+            $matchedSymptoms[] = array_filter(
+                $this->majorClinicSigns->toArray(),
+                function (MajorInjuryClinicSign $clinicSign) use ($examenId, $symptom) {
+                    return $examenId === $clinicSign->getExamen()->getId()
+                        && $symptom['symptom']['id'] === $clinicSign->getExpectedValue()->getId();
+                });
+        }
+        return $numberOfMajorClinicSign === count(array_filter($matchedSymptoms));
     }
 }

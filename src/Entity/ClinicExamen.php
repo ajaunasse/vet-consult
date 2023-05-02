@@ -22,6 +22,9 @@ class ClinicExamen
     #[ORM\JoinColumn(nullable: false)]
     private ?ClinicSignType $type = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $subTitle = null;
+
     #[Groups(['get'])]
     #[ORM\ManyToMany(targetEntity: ClinicSignValue::class)]
     private Collection $availableValues;
@@ -48,9 +51,6 @@ class ClinicExamen
         return $this;
     }
 
-    /**
-     * @return Collection<int, ClinicSignValue>
-     */
     public function getAvailableValues(): Collection
     {
         return $this->availableValues;
@@ -72,9 +72,49 @@ class ClinicExamen
         return $this;
     }
 
+    public function getSubTitle(): ?string
+    {
+        return $this->subTitle;
+    }
+
+    public function setSubTitle(?string $subTitle): void
+    {
+        $this->subTitle = $subTitle;
+    }
+
     #[Groups(['get'])]
     public function getFullValue(): string
     {
         return $this->type->getName() . ' (' . implode(', ', $this->availableValues->toArray()) . ')';
+    }
+
+    public function getFullname(): string
+    {
+        return $this->type->getName(). ' '. $this->getSubTitle();
+    }
+
+    public function findValue(int $valueId): ?ClinicSignValue
+    {
+        $values = new ArrayCollection(
+                array_filter(
+                $this->availableValues->toArray(),
+                function (ClinicSignValue $clinicSignValue) use ($valueId) {
+                    return $clinicSignValue->getId() === $valueId;
+                })
+        );
+
+        if($values->count() === 0) {
+            return null;
+        }
+
+        if($values->count() > 1) {
+            throw new \Exception(sprintf('Multiple clinic sign value found for % ', $valueId));
+        }
+
+        return $values->first();
+    }
+
+    public function __toString(): string {
+        return $this->getFullname();
     }
 }

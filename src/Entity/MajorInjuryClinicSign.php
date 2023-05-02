@@ -15,7 +15,7 @@ class MajorInjuryClinicSign implements \Stringable
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ClinicSignType $type = null;
+    private ?ClinicExamen $examen = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -30,17 +30,25 @@ class MajorInjuryClinicSign implements \Stringable
         return $this->id;
     }
 
-    public function getType(): ?ClinicSignType
+    /**
+     * @return ClinicExamen|null
+     */
+    public function getExamen(): ?ClinicExamen
     {
-        return $this->type;
+        return $this->examen;
     }
 
-    public function setType(?ClinicSignType $type): self
+    /**
+     * @param ClinicExamen|null $examen
+     * @return MajorInjuryClinicSign
+     */
+    public function setExamen(?ClinicExamen $examen): MajorInjuryClinicSign
     {
-        $this->type = $type;
-
+        $this->examen = $examen;
         return $this;
     }
+
+
 
     public function getExpectedValue(): ?ClinicSignValue
     {
@@ -68,6 +76,10 @@ class MajorInjuryClinicSign implements \Stringable
 
     public function __toString(): string
     {
-        return $this->type->getName() . ' = ' . $this->expectedValue->getName();
+        if(null === $this->examen->getSubTitle()) {
+            return $this->examen->getType();
+        }
+
+        return $this->examen->getType() . ' - '.$this->examen->getSubTitle() . ' = ' . $this->expectedValue->getName();
     }
 }

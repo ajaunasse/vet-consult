@@ -22,13 +22,12 @@ class ConsultationFlow
     #[ORM\JoinColumn(nullable: false)]
     private ?ConsultationReason $reason = null;
 
-    #[Groups(['get'])]
-    #[ORM\OneToMany(mappedBy: 'consultationFlow', targetEntity: ConsultationFlowExamens::class, cascade: ['persist', 'remove'])]
-    private Collection $examens;
+    #[ORM\OneToMany(mappedBy: 'consultationFlow', targetEntity: ExamenStep::class, fetch: 'EAGER', orphanRemoval: true)]
+    private Collection $examenSteps;
 
     public function __construct()
     {
-        $this->examens = new ArrayCollection();
+        $this->examenSteps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,32 +48,62 @@ class ConsultationFlow
     }
 
     /**
-     * @return Collection<int, ConsultationFlowExamens>
+     * @return Collection<int, ExamenStep>
      */
-    public function getExamens(): Collection
+    public function getExamenSteps(): Collection
     {
-        return $this->examens;
+        return $this->examenSteps;
     }
 
-    public function addExamen(ConsultationFlowExamens $examen): self
+    public function addExamenStep(ExamenStep $examenStep): self
     {
-        if (!$this->examens->contains($examen)) {
-            $this->examens->add($examen);
-            $examen->setConsultationFlow($this);
+        if (!$this->examenSteps->contains($examenStep)) {
+            $this->examenSteps->add($examenStep);
+            $examenStep->setConsultationFlow($this);
         }
 
         return $this;
     }
 
-    public function removeExamen(ConsultationFlowExamens $examen): self
+    public function removeExamenStep(ExamenStep $examenStep): self
     {
-        if ($this->examens->removeElement($examen)) {
+        if ($this->examenSteps->removeElement($examenStep)) {
             // set the owning side to null (unless already changed)
-            if ($examen->getConsultationFlow() === $this) {
-                $examen->setConsultationFlow(null);
+            if ($examenStep->getConsultationFlow() === $this) {
+                $examenStep->setConsultationFlow(null);
             }
         }
 
         return $this;
+    }
+
+    public function getFirstStep(): ?ExamenStep
+    {
+        return $this->examenSteps->first();
+    }
+
+    public function findNextStep(int $nextStepPosition, array $triggerValuesId, int $currentExamenStepId): ?ExamenStep
+    {
+        $nextExamens = new ArrayCollection(
+            array_filter(
+                $this->examenSteps->toArray(),
+                function (ExamenStep $step) use ($nextStepPosition, $triggerValuesId, $currentExamenStepId) {
+                    return $step->getPosition() === $nextStepPosition
+                        && $step->getPreviousExamen()->getId() === $currentExamenStepId
+                        && in_array($step->getTriggerValue()->getId(), $triggerValuesId)
+                        ;
+                })
+        );
+
+        if($nextExamens->count()=== 0) {
+            return null;
+        }
+
+        if($nextExamens->count() > 1) {
+            throw new \Exception('Plusieurs examens clinique ont été trouvés');
+        }
+
+
+        return $nextExamens->first();
     }
 }
