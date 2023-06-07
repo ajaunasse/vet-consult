@@ -98,7 +98,9 @@ class ConsultationFlow
 
         foreach ($triggerValuesId as $examenId => $valueId) {
             $nextSteps = $probableNextSteps->filter(function (ExamenStep $step) use ($examenId, $valueId) {
-
+                if($step->getTriggerExamen() === null || $step->getTriggerValue() === null) {
+                    return false;
+                }
                 return $step->getTriggerExamen()->getId() === (int) $examenId
                     && $step->getTriggerValue()->getId() === (int) $valueId
                 ;
