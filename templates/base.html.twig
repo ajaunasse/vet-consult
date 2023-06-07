@@ -29,8 +29,8 @@
                     </div>
                     <div id="navMenu" class="navbar-menu">
                         <div class="navbar-start">
-                            <a class="navbar-item" href="#">
-                                Nouvelle consultation
+                            <a class="navbar-item" href="{{ path('app_home') }}">
+                                Consultations
                             </a>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <a class="navbar-item" href="{{ path('admin') }}">

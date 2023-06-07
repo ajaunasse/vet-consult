@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-   {{ injury.name }}
+    {% if injury is not null %}
+
+       {{ injury.name }}
+    {% else %}
+        Aucune atteinte neurologique trouvé
+    {% endif %}
 {% endblock %}
 
 {% block body %}

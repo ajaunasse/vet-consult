@@ -15,11 +15,6 @@ class ConsultationReasonType extends AbstractType
         $builder
             ->add('value', TextType::class, [
                 'autocomplete' => true,
-                'tom_select_options' => [
-                    'create' => true,
-                    'createOnBlur' => true,
-                    'delimiter' => ',',
-                ],
             ])
         ;
     }

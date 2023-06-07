@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Entity\ConsultationFlow;
-use App\Entity\ConsultationFlowExamens;
+use App\Entity\ExamenStep;
 use App\Repository\ClinicExamenRepository;
+use App\Repository\ClinicSignValueRepository;
 use App\Repository\ConsultationFlowRepository;
-use App\Repository\ConsultationReasonRepository;
+use App\Repository\ExamenStepRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,17 +20,16 @@ final class ApiConsultationFlowController extends AbstractController
 
     public function __construct(
         private ConsultationFlowRepository $consultationFlowRepository,
-        private ConsultationReasonRepository $consultationReasonRepository,
+        private ExamenStepRepository $examenStepRepository,
         private ClinicExamenRepository $clinicExamenRepository,
+        private ClinicSignValueRepository $clinicSignValueRepository,
         private EntityManagerInterface $entityManager
     ) {
 
     }
 
-    #[Route('/', name: 'post', options: ['expose' => true], methods: ['POST'])]
-    public function post(Request $request) {
-
-        dd($request);
+    #[Route('/{id}', name: 'post', options: ['expose' => true], methods: ['POST'])]
+    public function post(Request $request, int $id) {
         return $this->json(
             $this->consultationFlowRepository->find($id), 200, [], ['groups' => 'get']
         );
@@ -38,34 +37,63 @@ final class ApiConsultationFlowController extends AbstractController
 
     #[Route('/get/{id}', name: 'get', options: ['expose' => true], methods: ['GET'])]
     public function getById(int $id) {
-
         return $this->json(
             $this->consultationFlowRepository->find($id), 200, [], ['groups' => 'get']
         );
     }
 
-    #[Route('/save', name: 'save', options: ['expose' => true], methods: ['POST'])]
-    public function save(Request $request): JsonResponse
+    #[Route('/{id}/add-step', name: 'add_step', options: ['expose' => true], methods: ['POST'])]
+    public function save(Request $request, int $id): JsonResponse
     {
-        $flowData = json_decode($request->getContent(), true);
+        $stepData = json_decode($request->getContent(), true);
+        $consultationFlow =  $this->consultationFlowRepository->find($id);
+        $previousStep = null;
+        $triggerValue = null;
 
-        $flow = new ConsultationFlow();
+        if(isset($stepData['previousStepId'])){
+            $previousStep = $this->examenStepRepository->find((int) $stepData['previousStepId']);
+        }
+        $key = $stepData['key'] ?? null;
+        if($key !== null) {
+            $step = $this->examenStepRepository->find((int) $key);
+        } else {
+            $step = new ExamenStep();
+        }
+        $step->setName(trim($stepData['name']));
+        $step->setPosition((int) $stepData['position']);
+        $step->setConsultationFlow($consultationFlow);
+        $step->setPreviousExamen($previousStep);
 
-        if($flowData['id'] !== null)  {
-            $flow = $this->consultationFlowRepository->find($flowData['id']);
+        if(isset($stepData['triggerValue']) && isset($stepData['triggerExamen'])){
+            $triggerValue = $this->clinicSignValueRepository->findOneBy(['name'=> $stepData['triggerValue']]);
+            $triggerExamen = $this->clinicExamenRepository->findOneBy(['id'=> (int) $stepData['triggerExamen']]);
+            $step->setTriggerValue($triggerValue);
+            $step->setTriggerExamen($triggerExamen);
         }
 
-        $flow->setReason($this->consultationReasonRepository->find((int) $flowData['reason']));
-        foreach ($flowData['examens'] as $examen) {
-            $consultationFlowExamen = new ConsultationFlowExamens();
-            $consultationFlowExamen->setClinicExamen($this->clinicExamenRepository->find($examen['id']));
-            $consultationFlowExamen->setPosition($examen['position']);
-            $flow->addExamen($consultationFlowExamen);
 
+        foreach ($stepData['examens'] as $examem) {
+            $examen = $this->clinicExamenRepository->find($examem['id']);
+            $step->addExamen($examen);
         }
-        $this->entityManager->persist($flow);
+
+
+        $this->entityManager->persist($step);
+
+
         $this->entityManager->flush();
 
-        return $this->json($flow, 200, [], ['groups' => 'get']);
+        return $this->json([], 201);
+    }
+
+    #[Route('/remove-step/{id}', name: 'remove_step', options: ['expose' => true], methods: ['DELETE'])]
+    public function deleteStep(Request $request, int $id): JsonResponse
+    {
+        $step = $this->examenStepRepository->find($id);
+
+        $this->entityManager->remove($step);
+        $this->entityManager->flush();
+
+        return $this->json([], 201);
     }
 }

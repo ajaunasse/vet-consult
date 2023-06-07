@@ -19,6 +19,7 @@ final class ApiClinicExamenController extends AbstractController
     public function getName(): JsonResponse
     {
         $clinicExamens = $this->clinicExamenRepository->findAll();
+
         return $this->json($clinicExamens, 200, [], ['groups' => 'get']);
     }
 

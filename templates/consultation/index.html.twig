@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle consultation{% endblock %}
+
+{% block body %}
+<section class="section">
+    <div class="column column is-6 is-offset-3">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <article class="message is-{{ label }}">
+                    <div class="message-body">
+                        {{ message }}
+                    </div>
+                </article>
+            {% endfor %}
+        {% endfor %}
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <p class="card-header-title">
+                        Séléctionner un motif de consultation
+                    </p>
+                    <hr>
+
+                    <form id="consultation" method="post" action="{{ path('app_consultation_new') }}">
+                        {% for reason in reasons %}
+                        <label class="checkbox">
+                            <input type="radio" name="reason" value="{{ reason.id }}" >
+                            {{ reason.value }}
+                        </label>
+                        <br><br>
+                        {% endfor %}
+
+
+                        <hr>
+                        <input type="submit" class="button is-success is-pulled-right" value="Valider">
+                        <br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

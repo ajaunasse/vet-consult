@@ -84,26 +84,35 @@ class ConsultationFlow
 
     public function findNextStep(int $nextStepPosition, array $triggerValuesId, int $currentExamenStepId): ?ExamenStep
     {
-        $nextExamens = new ArrayCollection(
-            array_filter(
-                $this->examenSteps->toArray(),
-                function (ExamenStep $step) use ($nextStepPosition, $triggerValuesId, $currentExamenStepId) {
-                    return $step->getPosition() === $nextStepPosition
-                        && $step->getPreviousExamen()->getId() === $currentExamenStepId
-                        && in_array($step->getTriggerValue()->getId(), $triggerValuesId)
-                        ;
-                })
-        );
 
-        if($nextExamens->count()=== 0) {
+        $nextSteps = new ArrayCollection();
+        $probableNextSteps = $this->examenSteps->filter(function (ExamenStep $step) use ($nextStepPosition, $currentExamenStepId) {
+            return  $step->getPosition() === $nextStepPosition
+                && $step->getPreviousExamen()->getId() === $currentExamenStepId
+            ;
+        });
+
+        if($probableNextSteps->count() === 1 && null === $probableNextSteps->first()->getTriggerValue()) {
+            return $probableNextSteps->first();
+        }
+
+        foreach ($triggerValuesId as $examenId => $valueId) {
+            $nextSteps = $probableNextSteps->filter(function (ExamenStep $step) use ($examenId, $valueId) {
+
+                return $step->getTriggerExamen()->getId() === (int) $examenId
+                    && $step->getTriggerValue()->getId() === (int) $valueId
+                ;
+            });
+
+            if($nextSteps->count() === 1) {
+                break;
+            }
+        }
+
+        if($nextSteps->count()=== 0) {
             return null;
         }
 
-        if($nextExamens->count() > 1) {
-            throw new \Exception('Plusieurs examens clinique ont été trouvés');
-        }
-
-
-        return $nextExamens->first();
+        return $nextSteps->first();
     }
 }

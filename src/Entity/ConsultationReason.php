@@ -25,13 +25,6 @@ class ConsultationReason
     #[ORM\Column(length: 255)]
     private ?string $value = null;
 
-    #[ORM\OneToMany(mappedBy: 'consultationReason', targetEntity: Injury::class)]
-    private Collection $injuries;
-
-    public function __construct()
-    {
-        $this->injuries = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -53,35 +46,5 @@ class ConsultationReason
     public function __toString(): string
     {
         return $this->value;
-    }
-
-    /**
-     * @return Collection<int, Injury>
-     */
-    public function getInjuries(): Collection
-    {
-        return $this->injuries;
-    }
-
-    public function addInjury(Injury $injury): self
-    {
-        if (!$this->injuries->contains($injury)) {
-            $this->injuries->add($injury);
-            $injury->setConsultationReason($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInjury(Injury $injury): self
-    {
-        if ($this->injuries->removeElement($injury)) {
-            // set the owning side to null (unless already changed)
-            if ($injury->getConsultationReason() === $this) {
-                $injury->setConsultationReason(null);
-            }
-        }
-
-        return $this;
     }
 }

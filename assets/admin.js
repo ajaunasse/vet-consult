@@ -1,6 +1,7 @@
 const $ = require('jquery');
 
 require('bootstrap');
+import * as go from 'gojs';
 
 import { createApp } from 'vue';
 import App from './js/admin/NewConsultationFlow.vue';

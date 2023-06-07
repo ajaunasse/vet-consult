@@ -25,7 +25,7 @@ class MajorInjuryClinicSignType extends AbstractType
                 'expanded' => false,
                 'required' => true,
                 'label' => 'Type d\'examen',
-                'autocomplete' => 'true'
+                'attr' => ['data-ea-widget' => 'ea-autocomplete']
             ])
             ->add('expectedValue', EntityType::class, [
                 'class' => ClinicSignValue::class,

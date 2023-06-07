@@ -4,7 +4,7 @@
 
 {% block body %}
 <section class="section">
-    <div class="column column is-6 is-offset-3">
+    <div class="column column is-10 is-offset-1">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <article class="message is-{{ label }}">
@@ -15,28 +15,49 @@
             {% endfor %}
         {% endfor %}
         <div class="card">
+            <header class="card-header text-center">
+                <p class="card-header-title">
+                    Historique des consultations
+                </p>
+            </header>
             <div class="card-content">
-                <div class="content">
-                    <p class="card-header-title">
-                        Séléctionner un motif de consultation
-                    </p>
-                    <hr>
+                <a class="button is-success is-pulled-right" href="{{ path('app_consultation_index') }}">
+                    Nouvelle consultation</a>
 
-                    <form id="consultation" method="post" action="{{ path('app_consultation_new') }}">
-                        {% for reason in reasons %}
-                        <label class="checkbox">
-                            <input type="radio" name="reason" value="{{ reason.id }}" >
-                            {{ reason.value }}
-                        </label>
-                        <br><br>
-                        {% endfor %}
+                <table class="table table is-striped is-fullwidth">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Date</th>
+                        <th>Reason</th>
+                        <th>Symptomes</th>
+                        <th>Injury</th>
+                    </thead>
+                    <tbody>
+                    {% for consultation in consultations %}
+                    <tr>
+                        <td>{{ consultation.id }}</td>
+                        <td>{{ consultation.createdAt|format_datetime(locale='fr')}}</td>
+                        <td>{{ consultation.reasons.value }}</td>
+                        <td>
+                            {% for symptom in consultation.symptoms %}
+                                <span class="tag is-info">
+                                    {{ symptom['examen'] }} : {{ symptom['symptom']['name']}}
+                                </span>
+                            {% endfor %}
 
-
-                        <hr>
-                        <input type="submit" class="button is-success is-pulled-right" value="Valider">
-                        <br>
-                    </form>
-                </div>
+                        </td>
+                        <td>
+                            {% if consultation.injury is not null %}
+                                {{ consultation.injury.name }}
+                            {% else %}
+                                Aucune
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

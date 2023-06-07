@@ -31,6 +31,10 @@ class ExamenStep
     #[ORM\JoinColumn(nullable: true)]
     private ?ClinicSignValue $triggerValue = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?ClinicExamen $triggerExamen = null;
+
     #[ORM\Column]
     private ?int $position = null;
 
@@ -88,6 +92,17 @@ class ExamenStep
 
         return $this;
     }
+
+    public function getTriggerExamen(): ?ClinicExamen
+    {
+        return $this->triggerExamen;
+    }
+
+    public function setTriggerExamen(?ClinicExamen $triggerExamen): void
+    {
+        $this->triggerExamen = $triggerExamen;
+    }
+
 
     public function getPosition(): ?int
     {

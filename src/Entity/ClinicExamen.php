@@ -85,12 +85,17 @@ class ClinicExamen
     #[Groups(['get'])]
     public function getFullValue(): string
     {
-        return $this->type->getName() . ' (' . implode(', ', $this->availableValues->toArray()) . ')';
+
+        return $this->getFullname() . ' (' . implode(', ', $this->availableValues->toArray()) . ')';
     }
 
     public function getFullname(): string
     {
-        return $this->type->getName(). ' '. $this->getSubTitle();
+        if($this->subTitle === null) {
+            return $this->type->getName();
+        }
+
+        return $this->type->getName(). ' - '. $this->getSubTitle();
     }
 
     public function findValue(int $valueId): ?ClinicSignValue

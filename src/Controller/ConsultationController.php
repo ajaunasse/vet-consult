@@ -12,9 +12,11 @@ use App\Repository\ConsultationReasonRepository;
 use App\Repository\ExamenStepRepository;
 use App\Repository\InjuryRepository;
 use App\Service\Guesser\InjuryGuesser;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -27,11 +29,21 @@ final class ConsultationController extends AbstractController
         private ConsultationFlowRepository $consultationFlowRepository,
         private EntityManagerInterface $entityManager,
         private InjuryGuesser $injuryGuesser,
+        private Security $security,
+        private ConsultationReasonRepository $consultationReasonRepository
     ) {
 
     }
 
-    #[Route('/consultation/new', name: 'app_consultation_new')]
+    #[Route('/', name: 'app_home')]
+    public function index(): Response
+    {
+        return $this->render('consultation/index.html.twig', [
+            'reasons' => $this->consultationReasonRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/consultation/new', name: 'app_consultation_new', methods: 'POST')]
     public function new(Request $request): Response
     {
         $reasonId = (int) $request->request->get('reason') ?? null;
@@ -55,6 +67,8 @@ final class ConsultationController extends AbstractController
         $consultation->setConsultationFlow($flow);
         $consultation->setReasons($flow->getReason());
         $consultation->setCurrentStep($nextStep);
+        $consultation->setUser($this->security->getUser());
+        $consultation->setCreatedAt(new DateTimeImmutable());
 
         $this->entityManager->persist($consultation);
         $this->entityManager->flush();
@@ -96,11 +110,12 @@ final class ConsultationController extends AbstractController
 
         $nextStep = $flow->findNextStep($nextStepPosition, $values, $currentStep->getId());
 
-
         $consultation->addPreviousExamensStep($currentStep);
         $consultation->setCurrentStep($nextStep);
-
         foreach ($currentStep->getExamens() as $examen) {
+            if(!isset($values[$examen->getId()])) {
+                continue;
+            }
             /** @var ClinicExamen $examen */
             $consultation->addSymptom(
                 $examen,
@@ -130,6 +145,11 @@ final class ConsultationController extends AbstractController
     public function guessInjury(Consultation $consultation): Response
     {
         $injury = $this->injuryGuesser->guess($consultation->getSymptoms());
+
+        if($injury !== null) {
+            $consultation->setInjury($injury);
+            $this->entityManager->flush();
+        }
 
         return $this->render('consultation/guess_injury.html.twig', [
             'injury' => $this->injuryGuesser->guess($consultation->getSymptoms()),
