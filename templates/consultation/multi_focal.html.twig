@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Atteinte multifocal
+{% endblock %}
+
+{% block body %}
+<section class="section columns">
+    <div class="column is-6 is-offset-one-quarter">
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <p class="card-header-title">
+                        Atteinte multifocal
+                    </p>
+                    <hr class="form-hr">
+
+                        <div class="notification is-warning">
+                            Avec les données entrées nous avons pu determiner une possible <b> atteinte multifocal </b>
+                        </div>
+
+                    <h4> Rappel de la consultation</h4>
+                    <blockquote>
+                        <p><b>Motif de consultation : </b> {{ consultation.reasons.value }}</p>
+                        {% for examen in consultation.symptoms %}
+                            <p><b>{{ examen.examen }} :</b> {{ examen.symptom.name }}</p>
+                        {% endfor %}
+                    </blockquote>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+{% endblock %}

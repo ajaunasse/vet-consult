@@ -86,6 +86,7 @@ class ConsultationFlow
     {
 
         $nextSteps = new ArrayCollection();
+
         $probableNextSteps = $this->examenSteps->filter(function (ExamenStep $step) use ($nextStepPosition, $currentExamenStepId) {
             return  $step->getPosition() === $nextStepPosition
                 && $step->getPreviousExamen()->getId() === $currentExamenStepId

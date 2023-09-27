@@ -103,12 +103,40 @@ final class ConsultationController extends AbstractController
         ExamenStep $currentStep
     ): Response
     {
+
         $nextStepPosition = $currentStep->getPosition() + 1;
         $values = $request->request->all();
 
         $flow = $consultation->getConsultationFlow();
 
         $nextStep = $flow->findNextStep($nextStepPosition, $values, $currentStep->getId());
+
+        if($nextStep === null) {
+            return $this->redirectToRoute(
+                'app_consultation_guess_injury',
+                ['consultationId' => $consultation->getId(),]
+            );
+        }
+
+
+        if($nextStep->isMultiFocal()) {
+            return $this->render('consultation/multi_focal.html.twig', [
+                'consultation' => $consultation
+            ]);
+        }
+
+        if($nextStep->getLinkedConsultationFlow() !== null) {
+            $newConsultationFlow = $nextStep->getLinkedConsultationFlow();
+            $consultation->setConsultationFlow($newConsultationFlow);
+            $consultation->setCurrentStep($newConsultationFlow->getFirstStep());
+            $consultation->setSymptoms([]);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_consultation_current_step', [
+                'consultationId' => $consultation->getId(),
+                'stepId' => $newConsultationFlow->getFirstStep()->getId()
+            ]);
+        }
 
         $consultation->addPreviousExamensStep($currentStep);
         $consultation->setCurrentStep($nextStep);
@@ -125,12 +153,6 @@ final class ConsultationController extends AbstractController
 
         $this->entityManager->flush();
 
-        if($nextStep === null) {
-            return $this->redirectToRoute(
-                'app_consultation_guess_injury',
-                ['consultationId' => $consultation->getId(),]
-            );
-        }
 
         return $this->redirectToRoute('app_consultation_current_step', [
             'consultationId' => $consultation->getId(),

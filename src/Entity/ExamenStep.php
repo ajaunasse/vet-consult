@@ -6,6 +6,7 @@ use App\Repository\ExamenStepRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ExamenStepRepository::class)]
@@ -19,6 +20,9 @@ class ExamenStep
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isMultiFocal = false;
 
     #[ORM\ManyToOne(inversedBy: 'examenSteps')]
     #[ORM\JoinColumn(nullable: false)]
@@ -43,6 +47,9 @@ class ExamenStep
 
     #[ORM\OneToMany(mappedBy: 'previousExamen', targetEntity: self::class)]
     private Collection $nextExamens;
+
+    #[ORM\ManyToOne(targetEntity: ConsultationFlow::class)]
+    private ?ConsultationFlow $linkedConsultationFlow = null;
 
 
     public function __construct()
@@ -185,5 +192,28 @@ class ExamenStep
         return $this;
     }
 
+    public function getLinkedConsultationFlow(): ?ConsultationFlow
+    {
+        return $this->linkedConsultationFlow;
+    }
 
+    public function setLinkedConsultationFlow(?ConsultationFlow $linkedConsultationFlow): self
+    {
+        $this->linkedConsultationFlow = $linkedConsultationFlow;
+
+        return $this;
+    }
+
+    public function isMultiFocal(): bool
+    {
+        return $this->isMultiFocal;
+    }
+
+
+    public function setIsMultiFocal(bool $isMultiFocal): self
+    {
+        $this->isMultiFocal = $isMultiFocal;
+
+        return $this;
+    }
 }
