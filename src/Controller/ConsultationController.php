@@ -106,8 +106,20 @@ final class ConsultationController extends AbstractController
 
         $nextStepPosition = $currentStep->getPosition() + 1;
         $values = $request->request->all();
-
+      ;
         $flow = $consultation->getConsultationFlow();
+
+        foreach ($currentStep->getExamens() as $examen) {
+            if(!isset($values[$examen->getId()])) {
+                continue;
+            }
+            /** @var ClinicExamen $examen */
+            $consultation->addSymptom(
+                $examen,
+                $examen->findValue((int) $values[$examen->getId()])
+            );
+        }
+        $this->entityManager->flush();
 
         $nextStep = $flow->findNextStep($nextStepPosition, $values, $currentStep->getId());
 
@@ -140,16 +152,6 @@ final class ConsultationController extends AbstractController
 
         $consultation->addPreviousExamensStep($currentStep);
         $consultation->setCurrentStep($nextStep);
-        foreach ($currentStep->getExamens() as $examen) {
-            if(!isset($values[$examen->getId()])) {
-                continue;
-            }
-            /** @var ClinicExamen $examen */
-            $consultation->addSymptom(
-                $examen,
-                $examen->findValue((int) $values[$examen->getId()])
-            );
-        }
 
         $this->entityManager->flush();
 
