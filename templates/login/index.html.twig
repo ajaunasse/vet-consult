@@ -10,13 +10,19 @@
 {% endblock %}
 {% block body %}
     <section class="container">
-        <div class="columns is-multiline">
-            <div class="column is-10 is-offset-1 register">
+        <div class="columns is-multiline is-mobile">
+            <div class="column is-10 is-offset-1 is-mobile main">
                 <div class="columns">
                     <div class="column left">
-                        <h1 class="title is-1">Neuro vet consult</h1>
-                        <h2 class="subtitle colored is-4">Veterinaire neurologique consultation.</h2>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis ex deleniti aliquam tempora libero excepturi vero soluta odio optio sed.</p>
+                        <h1 class="title is-1">Neurolocalizer</h1>
+                        <h2 class="subtitle colored is-4">Outil d'analyze neurologique pour animaux</h2>
+                        <p>
+                            Bienvenue sur Neurolocalizer, la version bêta d'un outil d'aide à la neurolocalisation.
+                        </p>
+                        <p>
+                            N'hésitez pas à utiliser cet outil et nous envoyer vos remarques afin d'améliorer les prochaines versions. Nous vous remercions par avance de votre participation.
+
+                        </p>
                     </div>
                     <div class="column right has-text-centered">
                         <h1 class="title is-4">Connexion</h1>
@@ -29,7 +35,7 @@
                                             class="input is-medium"
                                             type="text"
                                             name="_username"
-                                            placeholder="Username"
+                                            placeholder="Username ou email"
                                             value="{{ last_username }}"
                                     >
                                 </div>
@@ -47,6 +53,10 @@
                                 </div>
                             </div>
                             <button class="button is-block is-primary is-fullwidth is-medium">Se connecter</button>
+                            <br>
+                            <div class="has-text-centered">
+                                <p class="is-size-10">Pas encore de inscrit ? <a href="{{ path('app_register') }}">S'inscrire</a></p>
+                            </div>
                             <br />
                         </form>
                     </div>

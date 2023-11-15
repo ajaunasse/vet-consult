@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Neurolicalizater{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('login_style') }}
+{% endblock %}
+{% block nav %}
+{% endblock %}
+{% block body %}
+    <section class="container">
+        <div class="columns is-multiline">
+            <div class="column is-11 is-offset-1 main">
+                <div class="columns">
+                    <div class="column left">
+                        <h1 class="title is-1">Neurolocalizer</h1>
+                        <h2 class="subtitle colored is-4">Outil d'analyze neurologique pour animaux</h2>
+                        <p>
+                            Bienvenue sur Neurolocalizer, la version bêta d'un outil d'aide à la neurolocalisation.
+                        </p>
+                        <p>
+                            N'hésitez pas à utiliser cet outil et nous envoyer vos remarques afin d'améliorer les
+                            prochaines versions. Nous vous remercions par avance de votre participation.
+
+                        </p>
+                    </div>
+                    <div class="column right">
+                        <h3 class="title is-4">Inscription à neurolocalizer</h3>
+                        <hr>
+                        {{ form_start(form) }}
+                        <div class="field">
+                            <label class="label">{{ form_label(form.email) }}</label>
+
+                            <div class="control has-icons-left has-icons-right">
+                                {{ form_widget(form.email, { 'attr': {'class': 'input'} }) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">{{ form_label(form.lastname) }}</label>
+
+                            <div class="control has-icons-left has-icons-right">
+                                {{ form_widget(form.lastname, { 'attr': {'class': 'input'} }) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">{{ form_label(form.firstname) }}</label>
+
+                            <div class="control has-icons-left has-icons-right">
+                                {{ form_widget(form.firstname, { 'attr': {'class': 'input'} }) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">{{ form_label(form.plainPassword) }}</label>
+
+                            <div class="control has-icons-left has-icons-right">
+                                {{ form_widget(form.plainPassword, { 'attr': {'class': 'input'} }) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">{{ form_label(form.statut) }}</label>
+
+                            <div class="select">
+                                {{ form_widget(form.statut) }}
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">{{ form_label(form.veterinaireRegistrationNumber) }}</label>
+
+                            <div class="control has-icons-left has-icons-right">
+                                {{ form_widget(form.veterinaireRegistrationNumber, { 'attr': {'class': 'input'} }) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-id-badge"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <button type="submit" class="button is-block is-primary is-fullwidth is-medium">Je créer mon compte
+                            </button>
+                        </div>
+                        <div class="has-text-centered">
+                            <p class="is-size-10"><a href="{{ path('app_login') }}">J'ai déjà un compte</a></p>
+                        </div>
+                    {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -15,11 +15,6 @@ body {
   margin-bottom: 1rem;
 }
 
-.register {
-  margin-top: 10rem;
-  background: white;
-  border-radius: 10px;
-}
 
 .left,
 .right {
@@ -76,4 +71,12 @@ input:focus {
 .fas {
   color: var(--textLight);
   margin-right: 1rem;
+}
+.left, .right {
+  padding: 2.5rem;
+}
+.main {
+  margin-top: 7rem;
+  background: white;
+  border-radius: 10px;
 }
