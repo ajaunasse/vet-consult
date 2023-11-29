@@ -54,13 +54,13 @@ final class ConsultationController extends AbstractController
         $flow  = $this->consultationFlowRepository->findOneBy(['reason' => $reasonId]);
 
         if($flow === null) {
-            $this->addFlash('danger', 'Aucune données trouvées pour ce motif de consultation');
+            $this->addFlash('danger', 'Aucune données trouvée pour ce motif de consultation');
             return $this->redirectToRoute('app_home');
         }
         $nextStep = $flow->getFirstStep();
 
         if($nextStep === null) {
-            $this->addFlash('danger', 'Aucune données trouvées pour ce motif de consultation');
+            $this->addFlash('danger', 'Aucune données trouvée pour ce motif de consultation');
             return $this->redirectToRoute('app_home');
         }
         $consultation = new Consultation();
