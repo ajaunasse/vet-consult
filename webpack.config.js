@@ -35,6 +35,25 @@ Encore
     .enableSassLoader()
     .enableVueLoader()
     .addPlugin(new FosRouting({'target' : './web/js/fos_js_routes.json'}))
+    .configureImageRule({
+        // tell Webpack it should consider inlining
+        type: 'asset',
+        //maxSize: 4 * 1024, // 4 kb - the default is 8kb
+    })
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[ext]',
+        pattern: /\.(png|jpg|jpeg|svg|ico)$/
+    })
+    .copyFiles({
+        from: './assets/fonts',
+        to: 'fonts/[path][name].[ext]',
+        pattern: /\.(ttf)$/
+    })
+    .configureFontRule({
+        type: 'asset',
+        //maxSize: 4 * 1024
+    })
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 

@@ -3,9 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Neurolocalizater{% endblock %}</title>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/jpg" href="{{ asset('build/images/neuron(1).png') }}" />
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app_style') }}
         {% endblock %}
@@ -57,6 +61,9 @@
                         <div class="navbar-start">
                             <a class="navbar-item" href="{{ path('app_home') }}">
                                 Consultations
+                            </a>
+                            <a class="navbar-item" href="{{ path('app_contact_request_index') }}">
+                                Contactez nous
                             </a>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <a class="navbar-item" href="{{ path('admin') }}">

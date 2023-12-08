@@ -1,16 +1,22 @@
 @import "~bulma/css/bulma";
 @import "~bulma/css/bulma-rtl";
-
+@font-face {
+  font-family: 'OpenSans';
+  src: url('/public/build/fonts/OpenSans-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('/public/build/fonts/Lato-Regular.ttf') format('truetype');
+}
 html {
   background-color: rgb(241, 243, 244);
 }
 
 body {
-  font-family: Nunito,sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1rem;
   font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
+  color: #222;
 }
 
 nav.navbar {
@@ -18,11 +24,23 @@ nav.navbar {
   margin-bottom: 1rem;
 }
 .navbar-item.brand-text {
-  font-weight: 300;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 15px;
 }
-.navbar-item, .navbar-link {
-  font-size: 14px;
-  font-weight: 700;
+.navbar-item, .navbar-link, .card-header-title {
+  color: #222;
+  text-align: left;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 15px;
+}
+.card-header-title {
+  font-size: 17px;
+}
+th {
+  font-weight: 600;
 }
 
 input[type="radio"] {
@@ -59,4 +77,7 @@ label.checkbox {
 }
 #consultation {
 
+}
+.select, select {
+  width: 100%;
 }

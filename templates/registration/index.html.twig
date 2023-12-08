@@ -9,24 +9,15 @@
 {% block nav %}
 {% endblock %}
 {% block body %}
-    <section class="container">
+
         <div class="columns is-multiline">
-            <div class="column is-11 is-offset-1 main">
+            <div class="column is-8 is-offset-2 is-mobile main">
                 <div class="columns">
                     <div class="column left">
-                        <h1 class="title is-1">Neurolocalizer</h1>
-                        <h2 class="subtitle colored is-4">Outil d'analyze neurologique pour animaux</h2>
-                        <p>
-                            Bienvenue sur Neurolocalizer, la version bêta d'un outil d'aide à la neurolocalisation.
-                        </p>
-                        <p>
-                            N'hésitez pas à utiliser cet outil et nous envoyer vos remarques afin d'améliorer les
-                            prochaines versions. Nous vous remercions par avance de votre participation.
-
-                        </p>
+                        {% include './include/right_info.html.twig' %}
                     </div>
                     <div class="column right">
-                        <h3 class="title is-4">Inscription à neurolocalizer</h3>
+                        <h3 class="title is-4">Inscription à Neurolocalizer</h3>
                         <hr>
                         {{ form_start(form) }}
                         <div class="field">

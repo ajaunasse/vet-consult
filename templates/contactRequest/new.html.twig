@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+    {% set disabled = contactRequest.user is not null %}
+<section class="section">
+    <div class="column column is-6 is-offset-3">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <article class="message is-{{ label }}">
+                    <div class="message-body">
+                        {{ message }}
+                    </div>
+                </article>
+            {% endfor %}
+        {% endfor %}
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <p class="card-header-title">
+                        Demande de contact
+                    </p>
+                    <hr>
+
+                    {{ form_start(form) }}
+                    <div class="field">
+                        <label class="label">{{ form_label(form.firstname) }}</label>
+
+                        <div class="control has-icons-left has-icons-right" v-if="">
+                            {{ form_widget(form.firstname, { 'attr': {'class': 'input', 'disabled': disabled} }) }}
+                            <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">{{ form_label(form.lastname) }}</label>
+
+                        <div class="control has-icons-left has-icons-right">
+                            {{ form_widget(form.lastname, { 'attr': {'class': 'input', 'disabled': disabled} }) }}
+                            <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">{{ form_label(form.email) }}</label>
+
+                        <div class="control has-icons-left has-icons-right">
+                            {{ form_widget(form.email, { 'attr': {'class': 'input', 'disabled': disabled} }) }}
+                            <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">{{ form_label(form.reason) }}</label>
+
+                        <div class="select">
+                            {{ form_widget(form.reason) }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">{{ form_label(form.message) }}</label>
+
+                        {{ form_widget(form.message, { 'attr': {'class': 'textarea'} }) }}
+                    </div>
+
+                    <div class="field">
+                        <button type="submit" class="button is-block is-primary is-fullwidth is-medium">
+                            Envoyer
+                        </button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

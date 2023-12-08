@@ -9,23 +9,29 @@
 {% block nav %}
 {% endblock %}
 {% block body %}
+
     <section class="container">
+        <section class="container">
+
         <div class="columns is-multiline is-mobile">
             <div class="column is-10 is-offset-1 is-mobile main">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <article class="message is-{{ label }}">
+                            <div class="message-body">
+                                {{ message }}
+                            </div>
+                        </article>
+                    {% endfor %}
+                {% endfor %}
                 <div class="columns">
-                    <div class="column left">
-                        <h1 class="title is-2">Neurolocalizer</h1>
-                        <h2 class="subtitle colored is-4">Outil d'aide à la neurolocalisation pour animaux de compagnie.</h2>
-                        <p>
-                            Bienvenue sur Neurolocalizer, la version bêta d'un outil d'aide à la neurolocalisation.
-                        </p>
-                        <p>
-                            N'hésitez pas à utiliser cet outil et nous envoyer vos remarques afin d'améliorer les prochaines versions. Nous vous remercions par avance de votre participation.
 
-                        </p>
+                    <div class="column left">
+                        {% include './include/right_info.html.twig' %}
                     </div>
                     <div class="column right has-text-centered">
                         <h1 class="title is-4">Se connecter</h1>
+                        <hr>
                         <form action="{{ path('app_login') }}" method="post">
                             <div class="field">
                                 <div class="control">

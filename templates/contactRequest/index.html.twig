@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+<section class="section">
+    <div class="column column is-10 is-offset-1">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <article class="message is-{{ label }}">
+                    <div class="message-body">
+                        {{ message }}
+                    </div>
+                </article>
+            {% endfor %}
+        {% endfor %}
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <div class="header">
+                        <p class="card-header-title">
+                            Mes demandes de contact
+                        </p>
+
+                        <a href="{{ path('app_contact_request_new') }}" class="button is-success is-clearfix is-pulled-right">
+                            <span class="icon is-small">
+                                <i class="fas fa-plus"></i>
+                             </span>
+                            Nouvelle demande
+                        </a>
+                    </div>
+                    <hr>
+                    <table class="table is-striped is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Identifiant</th>
+                                <th>Date</th>
+                                <th>Raison</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for contactRequest in contactRequests %}
+                            <tr>
+                                <td>{{ contactRequest.id }}</td>
+                                <td>{{ contactRequest.createdAt|format_datetime(locale='fr') }}</td>
+                                <td>{{ contactRequest.reason }}</td>
+                                <td>{{ contactRequest.message }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

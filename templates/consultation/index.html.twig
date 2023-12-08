@@ -3,7 +3,7 @@
 {% block title %}Nouvelle consultation{% endblock %}
 
 {% block body %}
-<section class="section">
+<section class="section content">
     <div class="column column is-6 is-offset-3">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -14,6 +14,16 @@
                 </article>
             {% endfor %}
         {% endfor %}
+        <article class="message is-link">
+            <div class="message-body">
+                <p class="has-text-grey-dark">
+                    Bienvenue sur Neurolocalizer, la version bêta d'un outil d'aide à la neurolocalisation.
+                </p>
+                <p class="has-text-grey-dark">
+                    N'hésitez pas à utiliser cet outil et nous <b><a href="{{ path('app_contact_request_new') }}"> envoyer vos remarques ici </a></b> afin d'améliorer les prochaines versions. Nous vous remercions par avance de votre participation.
+                </p>
+            </div>
+        </article>
         <div class="card">
             <div class="card-content">
                 <div class="content">
