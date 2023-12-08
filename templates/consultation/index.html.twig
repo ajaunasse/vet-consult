@@ -32,7 +32,7 @@
                     </p>
                     <hr>
 
-                    <form id="consultation" method="post" action="{{ path('app_consultation_new') }}">
+                    <form method="post" action="{{ path('app_consultation_new') }}">
                         {% for reason in reasons %}
                         <label class="checkbox">
                             <input type="radio" name="reason" value="{{ reason.id }}" >
