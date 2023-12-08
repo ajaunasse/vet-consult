@@ -1,13 +1,5 @@
 @import "~bulma/css/bulma";
 @import "~bulma/css/bulma-rtl";
-@font-face {
-  font-family: 'OpenSans';
-  src: url('/public/build/fonts/OpenSans-Regular.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Lato';
-  src: url('/public/build/fonts/Lato-Regular.ttf') format('truetype');
-}
 html {
   background-color: rgb(241, 243, 244);
 }
