@@ -8,6 +8,7 @@ use App\Entity\ClinicSignType;
 use App\Entity\ClinicSignValue;
 use App\Entity\ConsultationFlow;
 use App\Entity\ConsultationReason;
+use App\Entity\ContactRequest;
 use App\Entity\Injury;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -36,7 +37,8 @@ class AdminController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Vet Consult');
+            ->setFaviconPath('./build/images/neuro(1).png')
+            ->setTitle('Neurolocalizer');
     }
 
     public function configureMenuItems(): iterable
@@ -44,12 +46,14 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::section('Paramétrage');
         yield MenuItem::linkToCrud('Graphe de consultation', 'fa-solid fa-sitemap', ConsultationFlow::class);
         yield MenuItem::linkToCrud('Examen clinique', 'fas fa-stethoscope', ClinicExamen::class);
-
-        yield MenuItem::section('Administration');
         yield MenuItem::linkToCrud('Motif de consultation', 'fas fa-hospital', ConsultationReason::class);
         yield MenuItem::linkToCrud('Atteinte neurologique', 'fas fa-brain', Injury::class);
         yield MenuItem::linkToCrud('Type de Signe clinique', 'fas fa-list', ClinicSignType::class);
         yield MenuItem::linkToCrud('Valeur des signes cliniques', 'fas fa-list', ClinicSignValue::class);
+
+        yield MenuItem::section('Administration');
+
         yield MenuItem::linkToCrud('Utilisateurs', 'fa-solid fa-users', User::class);
+        yield MenuItem::linkToCrud('Demande de contacts', 'fa-solid fa-envelope', ContactRequest::class);
     }
 }

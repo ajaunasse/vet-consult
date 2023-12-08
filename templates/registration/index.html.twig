@@ -54,7 +54,7 @@
                         <div class="field">
                             <label class="label">{{ form_label(form.plainPassword) }}</label>
 
-                            <div class="control has-icons-left has-icons-right">
+                            <div class="control has-icons-left">
                                 {{ form_widget(form.plainPassword, { 'attr': {'class': 'input'} }) }}
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
@@ -71,7 +71,7 @@
                         <div class="field">
                             <label class="label">{{ form_label(form.veterinaireRegistrationNumber) }}</label>
 
-                            <div class="control has-icons-left has-icons-right">
+                            <div class="control has-icons-left">
                                 {{ form_widget(form.veterinaireRegistrationNumber, { 'attr': {'class': 'input'} }) }}
                                 <span class="icon is-small is-left">
                                     <i class="fa fa-id-badge"></i>
@@ -79,7 +79,12 @@
                             </div>
                         </div>
                         <div class="field">
-                            <button type="submit" class="button is-block is-primary is-fullwidth is-medium">Je créer mon compte
+                            <button type="submit" class="button is-block is-primary is-fullwidth is-medium">
+                                 <span class="icon">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </span>
+                                <span> Je créer mon compte </span>
+
                             </button>
                         </div>
                         <div class="has-text-centered">

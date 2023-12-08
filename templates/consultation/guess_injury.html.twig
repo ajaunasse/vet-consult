@@ -15,14 +15,17 @@
         <div class="card">
             <div class="card-content">
                 <div class="content">
-                    <p class="card-header-title">
-                        {% if injury is not null %}
+                    <div class="header">
+                        <h3 class="card-title">
+                            {% if injury is not null %}
 
-                            Atteinte neurologique : {{ injury.name }}
-                        {% else %}
-                            Aucune atteinte neurologique trouvée
-                        {% endif %}
-                    </p>
+                                Atteinte neurologique : {{ injury.name }}
+                            {% else %}
+                                Aucune atteinte neurologique trouvée
+                            {% endif %}
+                        </h3>
+                    </div>
+
                     <hr class="form-hr">
 
                     {% if injury is not null %}
@@ -36,6 +39,8 @@
                         </div>
                     {% endif %}
                     <h4> Rappel de la consultation</h4>
+                    <hr class="form-hr">
+
                     <blockquote>
                         <p><b>Motif de consultation : </b> {{ consultation.reasons.value }}</p>
                         {% for examen in consultation.symptoms %}

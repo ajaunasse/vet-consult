@@ -18,16 +18,19 @@
             <div class="card-content">
                 <div class="content">
                     <div class="header">
-                        <p class="card-header-title">
+                        <h3 class="card-title">
                             Mes demandes de contact
-                        </p>
+                        </h3>
 
-                        <a href="{{ path('app_contact_request_new') }}" class="button is-success is-clearfix is-pulled-right">
+                        <div class="card-action">
+                            <a href="{{ path('app_contact_request_new') }}" class="button is-success is-clearfix">
                             <span class="icon is-small">
-                                <i class="fas fa-plus"></i>
+                                <i class="fa-regular fa-paper-plane"></i>
                              </span>
-                            Nouvelle demande
-                        </a>
+                               <span> Nouveau message </span>
+                            </a>
+                        </div>
+
                     </div>
                     <hr>
                     <table class="table is-striped is-fullwidth">

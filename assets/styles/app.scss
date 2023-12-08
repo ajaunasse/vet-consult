@@ -1,5 +1,5 @@
 @import "~bulma/css/bulma";
-@import "~bulma/css/bulma-rtl";
+//@import "~bulma/css/bulma-rtl";
 html {
   background-color: rgb(241, 243, 244);
 }
@@ -10,7 +10,9 @@ body {
   font-weight: 400;
   color: #222;
 }
-
+#content {
+  margin-top: -40px;
+}
 nav.navbar {
   border-top: 4px solid #48c78e;
   margin-bottom: 1rem;
@@ -27,6 +29,10 @@ nav.navbar {
   font-size: 16px;
   font-weight: 500;
   line-height: 15px;
+  .icon {
+    margin-left: calc(-0.5em - 1px);
+    margin-right: 0.25em;
+  }
 }
 .card-header-title {
   font-size: 17px;
@@ -68,8 +74,26 @@ label.checkbox {
   }
 }
 #consultation {
-
+  margin-top: -40px;
 }
 .select, select {
   width: 100%;
+}
+
+.card-content {
+  .content {
+    .header {
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h3.card-title {
+        font-size: 1.3rem;
+        line-height: 1;
+        padding: 0 6px;
+        font-weight: 500;
+      }
+    }
+  }
 }

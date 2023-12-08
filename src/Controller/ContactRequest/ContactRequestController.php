@@ -50,15 +50,23 @@ final class ContactRequestController extends AbstractController
     {
         $user = $this->security->getUser();
         $contactRequest = new ContactRequest();
+
         if($user instanceof User) {
             $contactRequest = ContactRequest::fromUser($user);
-            $contactRequest->setCreatedAt(new DateTimeImmutable());
+
         }
+
         $form = $this->createForm(ContactRequestType::class, $contactRequest);
+
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()  ) {
 
             $contactRequest = $form->getData();
+            if($user instanceof User) {
+                $contactRequest->setFirstName($user->getFirstName());
+                $contactRequest->setLastName($user->getLastName());
+                $contactRequest->setEmail($user->getEmail());
+            }
             $contactRequest->setCreatedAt(new DateTimeImmutable());
             $this->entityManager->persist($contactRequest);
             $this->entityManager->flush();

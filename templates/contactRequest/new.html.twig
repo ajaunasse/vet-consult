@@ -3,26 +3,29 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
-    {% set disabled = contactRequest.user is not null %}
-<section class="section">
+    {% set disabled = false %}
+<section class="section" id="content">
     <div class="column column is-6 is-offset-3">
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <article class="message is-{{ label }}">
-                    <div class="message-body">
-                        {{ message }}
-                    </div>
-                </article>
-            {% endfor %}
-        {% endfor %}
+        {% if not form.vars.valid %}
+            <article class="message is-danger">
+                <div class="message-body">
+                    {% for children in form.children %}
+                        {% if not children.vars.valid %}
+                            {{ form_errors(children) }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </article>
+        {% endif %}
         <div class="card">
             <div class="card-content">
                 <div class="content">
-                    <p class="card-header-title">
-                        Demande de contact
-                    </p>
+                    <div class="header">
+                        <h3 class="card-title">
+                            Envoyez un message
+                        </h3>
+                    </div>
                     <hr>
-
                     {{ form_start(form) }}
                     <div class="field">
                         <label class="label">{{ form_label(form.firstname) }}</label>
@@ -71,7 +74,10 @@
 
                     <div class="field">
                         <button type="submit" class="button is-block is-primary is-fullwidth is-medium">
-                            Envoyer
+                            <span class="icon">
+                                <i class="fas fa-paper-plane"></i>
+                            </span>
+                            <span> Envoyer mon message </span>
                         </button>
                     </div>
                     {{ form_end(form) }}

@@ -1,17 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin\Crud;
 
-use App\Entity\User;
+use App\Entity\ClinicExamen;
+use App\Entity\ContactRequest;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class UserCrudController extends AbstractCrudController
+final class ContactRequestCrudController extends AbstractCrudController
 {
-    public static function getEntityFqcn(): string
-    {
-        return User::class;
+
+    public static function getEntityFqcn(): string {
+        return ContactRequest::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud {
+        return Crud::new()
+            ->setEntityLabelInPlural('Demande de contact');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -24,14 +35,5 @@ class UserCrudController extends AbstractCrudController
             ->remove(Crud::PAGE_DETAIL, 'delete')
             ;
     }
-    /*
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
-    }
-    */
+
 }
