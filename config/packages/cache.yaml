@@ -1,15 +1,18 @@
 framework:
     cache:
+        app: app.cache.adapter.redis
+        default_redis_provider: '%env(resolve:REDIS_URL)%'
         pools:
             app_cache:
-                default_lifetime: 10800 #3 Hr in Prod
-                adapter: cache.adapter.redis
-                provider: '%env(REDIS_URL)%'
+                adapter: app.cache.adapter.redis
             doctrine.result_cache_pool:
-                default_lifetime: 10800
-                adapter: cache.adapter.redis
-                provider: '%env(REDIS_URL)%'
+                adapter: app.cache.adapter.redis
             doctrine.system_cache_pool:
-                default_lifetime: 10800
-                adapter: cache.adapter.redis
-                provider: '%env(REDIS_URL)%'
+                adapter: app.cache.adapter.redis
+services:
+    app.cache.adapter.redis:
+        parent: 'cache.adapter.redis'
+        arguments:
+            $defaultLifetime: 86400 # 24h
+        tags:
+            - { name: 'cache.pool', namespace: 'app_cache' }
