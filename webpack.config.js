@@ -22,7 +22,7 @@ Encore
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
-
+    .enableVersioning()
     .cleanupOutputBeforeBuild()
     //.enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
